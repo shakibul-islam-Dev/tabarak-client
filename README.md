@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tabark
 
-## Getting Started
+A premium, minimalist e-commerce storefront built with Next.js App Router. Warm
+editorial design, mobile-first layouts, and fully functional shopping flows — no
+decorative, dead-end buttons.
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router, Cache Components, Turbopack)
+- **TypeScript** + **Tailwind CSS v4** + shadcn-style UI primitives
+- **Motion** and **GSAP ScrollTrigger** for interaction and scroll choreography
+- **Zustand** (persisted) for cart, wishlist, and UI state
+- **React Hook Form** for forms, **next-themes** for light/dark
+- **Lucide React** icons, `yet-another-react-lightbox` for the product gallery
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+pnpm dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```bash
+pnpm lint       # ESLint
+pnpm build      # production build
+pnpm start      # serve the production build
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## What works
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Product catalogue with search, category filters, sorting, and SSR-rendered
+  results (`/shop?q=…&category=…`)
+- Product pages with image gallery, variants, quantity controls, and related
+  pieces
+- Cart drawer + cart page with quantity updates, removal, and free-shipping
+  progress
+- Wishlist with header count, persisted in `localStorage`
+- Editorial collections, brand story, campaign, newsletter, and contact pages
+- Local accounts: register, sign in, session cookie, and account page
+- Newsletter and contact forms that persist real submissions
 
-## Learn More
+## Preview limitations
 
-To learn more about Next.js, take a look at the following resources:
+This build is wired for a real backend but does not pretend to have one:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Checkout is a preview.** The form validates addresses and totals, then states
+  clearly that no payment was taken and no order was placed. No payment gateway
+  is connected.
+- **Accounts and messages are stored locally** as JSON files in `.data/`
+  (gitignored) via `src/lib/server/store.ts`. Passwords are hashed with scrypt
+  and sessions are HMAC-signed, but this file store is intended for preview and
+  local development — replace it with a database before deploying.
+- Set `AUTH_SECRET` in the environment for a stable session-signing key:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+  ```bash
+  AUTH_SECRET="$(openssl rand -base64 32)"
+  ```
 
-## Deploy on Vercel
+Product imagery is served from Unsplash, allow-listed in `next.config.ts`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+src/
+├── app/            routes, metadata, API handlers, error/loading/not-found
+├── components/     layout, sections, products, cart, auth, ui primitives
+├── data/           catalogue + collections (mock content, typed)
+├── hooks/          hydration and shared client hooks
+├── lib/            formatting, navigation, server auth/store helpers
+├── store/          zustand cart, wishlist, UI stores
+└── types/          shared domain types
+```
+
+`src/proxy.ts` rejects unknown product/collection slugs before render so they
+return a real `404` even with partial prerendering enabled.
