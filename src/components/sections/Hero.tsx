@@ -70,19 +70,20 @@ export function Hero() {
             variants={fadeUp}
             className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
           >
-            <Link
-              href="/shop"
-              className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-cream px-7 text-[13px] font-medium text-ink transition-all duration-300 hover:bg-white active:scale-[0.99]"
-            >
-              Shop the collection
-              <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-            <Link
-              href="/collections/the-quiet-edit"
-              className="inline-flex h-12 items-center justify-center rounded-full border border-white/35 px-7 text-[13px] font-medium text-white transition-colors duration-300 hover:border-white/70 hover:bg-white/10"
-            >
-              Explore the edit
-            </Link>
+      <Link
+  href="/shop"
+  className="group inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/35 bg-white/10 px-7 text-[13px] font-medium text-white transition-colors duration-300 hover:border-white/70 hover:bg-white/20 active:scale-[0.99]"
+>
+  Shop the collection
+  <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+</Link>
+
+<Link
+  href="/collections/the-quiet-edit"
+  className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/35 bg-white/10 px-7 text-[13px] font-medium text-white transition-colors duration-300 hover:border-white/70 hover:bg-white/20 active:scale-[0.99]"
+>
+  Explore the edit
+</Link>
           </motion.div>
         </motion.div>
 
